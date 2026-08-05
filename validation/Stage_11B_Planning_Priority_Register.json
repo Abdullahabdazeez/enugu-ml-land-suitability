@@ -1,0 +1,34 @@
+{
+    "stage": "11B",
+    "stage_name": "Suitability Reliability and Planning-Priority Validation",
+    "completion_time_utc": "2026-07-29T22:08:01.980528+00:00",
+    "study_area": "Enugu State, Nigeria",
+    "confidence_thresholds": {
+        "low": "< 0.40",
+        "moderate": "0.40 to < 0.70",
+        "high": ">= 0.70"
+    },
+    "priority_method": "Suitability classes adjusted by model-confidence class",
+    "pixel_area_km2": 0.0009,
+    "applicable_pixels": 6723162,
+    "applicable_area_km2": 6050.8458,
+    "high_confidence_pixels": 33422,
+    "high_confidence_area_km2": 30.0798,
+    "high_or_very_high_suitability_pixels": 590842,
+    "high_or_very_high_suitability_area_km2": 531.7578,
+    "high_confidence_high_suitability_pixels": 476,
+    "high_confidence_high_suitability_area_km2": 0.4284,
+    "outputs": {
+        "confidence_classes": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/13_Planning_Priority/Enugu_Model_Confidence_Classes_30m.tif",
+        "high_confidence_suitability": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/13_Planning_Priority/Enugu_High_Confidence_Suitability_30m.tif",
+        "planning_priority": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/13_Planning_Priority/Enugu_Urban_Development_Planning_Priority_30m.tif",
+        "suitability_confidence_table": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/13_Planning_Priority/Tables/Enugu_Suitability_by_Confidence_Crosstab.csv",
+        "suitability_reliability_table": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/13_Planning_Priority/Tables/Enugu_Suitability_Class_Reliability_Statistics.csv",
+        "confidence_area_table": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/13_Planning_Priority/Tables/Enugu_Confidence_Class_Area_Statistics.csv",
+        "priority_area_table": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/13_Planning_Priority/Tables/Enugu_Planning_Priority_Area_Statistics.csv",
+        "priority_quicklook": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/13_Planning_Priority/Maps/Enugu_Planning_Priority_Quicklook.png",
+        "confidence_quicklook": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/13_Planning_Priority/Maps/Enugu_Model_Confidence_Classes_Quicklook.png",
+        "validation_register": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/00_Project_Admin/Stage_11B_Validation_Register.csv"
+    },
+    "validation_passed": true
+}

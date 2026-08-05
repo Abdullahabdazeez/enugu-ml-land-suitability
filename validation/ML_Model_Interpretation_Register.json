@@ -1,0 +1,38 @@
+{
+    "project": "Machine-Learning-Based Land Suitability Analysis for Sustainable Urban Development \u2014 Enugu",
+    "selected_model": "Extra Trees",
+    "model_file": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/11_ML_Models/Enugu_Selected_Expansion_Model_Leakage_Corrected.joblib",
+    "model_retrained": false,
+    "model_tuned": false,
+    "retained_predictors": [
+        "Elevation_m",
+        "Slope_deg",
+        "Distance_to_Road_m",
+        "Distance_to_Surface_Water_m",
+        "Distance_to_Drainage_m",
+        "Population_Density",
+        "Baseline_LULC_2020"
+    ],
+    "excluded_label_rule_predictor": "Distance_to_Built_2020_m",
+    "importance_methods": [
+        "Extra Trees native impurity importance",
+        "Validation permutation importance using ROC-AUC",
+        "Independent-test permutation importance using ROC-AUC"
+    ],
+    "permutation_repeats": 15,
+    "partial_dependence_dataset": "Validation",
+    "top_native_predictor": "Distance_to_Road_m",
+    "top_validation_permutation_predictor": "Distance_to_Road_m",
+    "top_test_permutation_predictor": "Distance_to_Road_m",
+    "validation_test_rank_spearman_rho": 0.6785714285714287,
+    "native_test_rank_spearman_rho": 0.39285714285714296,
+    "negative_test_permutation_importance_count": 0,
+    "interpretation_caution": "Importance and partial dependence describe model behaviour and predictive association, not causal effects.",
+    "statewide_probability_surface_status": "Pending",
+    "software": {
+        "python": "3.12.13",
+        "scikit_learn": "1.6.1",
+        "numpy": "2.0.2",
+        "pandas": "2.2.2"
+    }
+}

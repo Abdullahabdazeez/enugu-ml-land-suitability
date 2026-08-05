@@ -1,0 +1,21 @@
+{
+  "project_title": "Machine-Learning-Based Land Suitability Analysis for Sustainable Urban Development \u2014 Enugu State, Nigeria",
+  "repository_name": "enugu-ml-land-suitability",
+  "study_area": "Enugu State, Nigeria",
+  "analysis_year": 2025,
+  "model": "Extra Trees",
+  "independent_test_samples": 3600,
+  "independent_test_blocks": 32,
+  "roc_auc": 0.7516694444444444,
+  "balanced_accuracy": 0.7111111111111111,
+  "f1_score": 0.7323726196603191,
+  "cohen_kappa": 0.4222222222222223,
+  "planning_applicable_area_km2": 6050.85,
+  "planning_constrained_area_km2": 1568.63,
+  "high_suitability_km2": 515.09,
+  "very_high_suitability_km2": 16.67,
+  "high_priority_km2": 392.83,
+  "very_high_priority_km2": 0.37,
+  "high_confidence_land_km2": 30.08,
+  "author": "Abdullah Abdazeez Ayomide"
+}

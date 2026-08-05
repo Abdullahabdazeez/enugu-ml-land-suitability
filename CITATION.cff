@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it using the metadata below."
+title: "Machine-Learning-Based Land Suitability Analysis for Sustainable Urban Development — Enugu State, Nigeria"
+type: software
+authors:
+  - family-names: "Ayomide"
+    given-names: "Abdullah Abdazeez"
+date-released: 2026-08-05
+repository-code: "https://github.com/Abdullahabdazeez/enugu-ml-land-suitability"
+license: MIT
+keywords:
+  - machine learning
+  - land suitability
+  - urban planning
+  - Extra Trees
+  - remote sensing
+  - Enugu
+  - Nigeria

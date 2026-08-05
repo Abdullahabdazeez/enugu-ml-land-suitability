@@ -1,0 +1,55 @@
+{
+    "project": "Machine-Learning-Based Land Suitability Analysis for Sustainable Urban Development \u2014 Enugu",
+    "prediction_target": "Urban expansion from 2020 to 2025",
+    "evaluation_type": "Final independent spatial test evaluation",
+    "selected_model": "Extra Trees",
+    "model_file": "/content/drive/MyDrive/Project_7_Enugu_ML_Land_Suitability/11_ML_Models/Enugu_Selected_Expansion_Model_Leakage_Corrected.joblib",
+    "classification_threshold": 0.5,
+    "threshold_selection": "Fixed before test evaluation; no test-set optimisation",
+    "test_sample_count": 3600,
+    "test_negative_count": 1800,
+    "test_positive_count": 1800,
+    "independent_test_block_count": 32,
+    "retained_predictors": [
+        "Elevation_m",
+        "Slope_deg",
+        "Distance_to_Road_m",
+        "Distance_to_Surface_Water_m",
+        "Distance_to_Drainage_m",
+        "Population_Density",
+        "Baseline_LULC_2020"
+    ],
+    "excluded_label_rule_predictor": "Distance_to_Built_2020_m",
+    "final_test_metrics": {
+        "accuracy": 0.7111111111111111,
+        "balanced_accuracy": 0.7111111111111111,
+        "precision": 0.6821668264621285,
+        "recall_sensitivity": 0.7905555555555556,
+        "specificity": 0.6316666666666667,
+        "negative_predictive_value": 0.7509907529722589,
+        "f1_score": 0.7323726196603191,
+        "roc_auc": 0.7516694444444444,
+        "pr_auc": 0.6718314011634183,
+        "matthews_correlation": 0.42765494941738463,
+        "cohen_kappa": 0.4222222222222223,
+        "brier_score": 0.20149224044500416,
+        "log_loss": 0.5955728427680437,
+        "false_positive_rate": 0.36833333333333335,
+        "false_negative_rate": 0.20944444444444443
+    },
+    "confusion_matrix": {
+        "true_negative": 1137,
+        "false_positive": 663,
+        "false_negative": 377,
+        "true_positive": 1423
+    },
+    "test_evaluation_status": "Completed",
+    "model_retraining_performed": false,
+    "test_threshold_optimisation_performed": false,
+    "software": {
+        "python": "3.12.13",
+        "scikit_learn": "1.6.1",
+        "numpy": "2.0.2",
+        "pandas": "2.2.2"
+    }
+}
