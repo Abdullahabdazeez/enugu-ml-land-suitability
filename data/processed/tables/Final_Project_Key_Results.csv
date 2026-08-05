@@ -1,0 +1,13 @@
+Indicator,Value,Interpretation
+Independent test ROC-AUC,0.7517,Model discrimination
+Independent test F1 score,0.7324,Positive-class performance
+Balanced accuracy,0.7111,Equal weighting of both classes
+Planning-applicable area,6050.85,km²
+Planning-constrained area,1568.63,km²
+High suitability,515.09,km²
+Very high suitability,16.67,km²
+High planning priority,392.83,km²
+Very high planning priority,0.37,km²
+High-confidence land,30.08,km²
+Mean statewide probability,0.35,Probability
+Mean constrained probability,0.3137,Probability

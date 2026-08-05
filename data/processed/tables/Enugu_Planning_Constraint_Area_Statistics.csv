@@ -1,0 +1,9 @@
+Constraint_Code,Constraint,Pixel_Count,Area_km2,Percentage_of_Valid_State_Area
+0,Applicable land,6723162,6050.8458,79.41289968454124
+1,Outside valid study area or missing predictor,16440446,14796.401399999999,194.1918830703644
+2,Existing built-up land in 2020,1097945,988.1505,12.968748357416294
+3,Water or flooded vegetation,8702,7.831799999999999,0.10278661336062969
+4,Slope greater than 15 degrees,300175,270.15749999999997,3.545618440074353
+5,Within recurring surface-water setback,273,0.2457,0.003224631745282913
+6,Within drainage setback,335826,302.2434,3.9667222728621963
+7,Snow or ice class anomaly,0,0.0,0.0

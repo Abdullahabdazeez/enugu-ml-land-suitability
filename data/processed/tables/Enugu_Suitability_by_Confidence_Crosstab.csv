@@ -1,0 +1,16 @@
+Suitability_Code,Suitability_Class,Confidence_Code,Confidence_Class,Pixel_Count,Area_km2,Percentage_Within_Suitability_Class
+1,Very Low,1,Low Confidence,151371,136.2339,6.25588151057649
+1,Very Low,2,Moderate Confidence,2235343,2011.8087,92.38256299751329
+1,Very Low,3,High Confidence,32945,29.650499999999997,1.3615554919102237
+2,Low,1,Low Confidence,1053700,948.3299999999999,47.69435778961071
+2,Low,2,Moderate Confidence,1155575,1040.0175,52.305596946692035
+2,Low,3,High Confidence,1,0.0009,4.5263697247424047e-05
+3,Moderate,1,Low Confidence,1026448,923.8032,68.27579096505552
+3,Moderate,2,Moderate Confidence,476937,429.2433,31.724209034944472
+3,Moderate,3,High Confidence,0,0.0,0.0
+4,High,1,Low Confidence,153297,137.9673,26.785190103438634
+4,High,2,Moderate Confidence,418961,377.06489999999997,73.20397679619794
+4,High,3,High Confidence,62,0.055799999999999995,0.010833100363433044
+5,Very High,1,Low Confidence,648,0.5831999999999999,3.498542274052478
+5,Very High,2,Moderate Confidence,17460,15.714,94.26627793974733
+5,Very High,3,High Confidence,414,0.3726,2.2351797862001943
