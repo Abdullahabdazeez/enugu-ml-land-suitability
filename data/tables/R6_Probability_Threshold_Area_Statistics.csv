@@ -1,0 +1,7 @@
+Probability_Threshold,Pixels_at_or_above,Area_km2,Pct_of_Valid_Prediction_Domain,Threshold_Role
+0.36,180024,162.0216,18.471369602846675,Validation-selected operating threshold
+0.5,95035,85.5315,9.751069914047758,Confidence/probability reporting threshold
+0.6,62225,56.0025,6.384598573174323,Confidence/probability reporting threshold
+0.7,41408,37.2672,4.248669469152308,Confidence/probability reporting threshold
+0.8,27096,24.3864,2.780186146062378,Confidence/probability reporting threshold
+0.9,15314,13.7826,1.5712935725125203,Confidence/probability reporting threshold

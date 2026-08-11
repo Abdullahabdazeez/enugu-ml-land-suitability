@@ -1,0 +1,17 @@
+Authoritative_Result,Value,Unit_or_Type
+Prediction question,Near-urban 2020→2025 observed expansion vs stable non-built controls within 30–90 m support,design
+Clean predictor count,7,predictors
+Independent spatial Test ROC-AUC,0.7267283904611246,score
+Independent spatial Test PR-AUC,0.3318727522963877,score
+Independent spatial Test Balanced Accuracy,0.6613668293698374,score
+Independent spatial Test F1,0.3367612159566052,score
+Independent spatial Test Precision,0.2469340404375207,score
+Independent spatial Test Recall,0.5293072824156305,score
+Distance baseline ROC-AUC,0.7067800542153697,score
+Distance baseline PR-AUC,0.1902786771364247,score
+ROC-AUC gain vs distance baseline,0.019948336245754872,score
+PR-AUC gain vs distance baseline,0.14159407515996297,score
+Balanced Accuracy gain vs distance baseline,-0.007504163937743558,score
+Validation-selected operating threshold,0.36,probability
+Very High / p>=0.70 area,37.2672,km²
+Very High / p>=0.70 share,4.248669469152308,percent

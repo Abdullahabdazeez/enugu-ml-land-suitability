@@ -1,0 +1,8 @@
+Predictor,ExtraTrees_Importance
+Population_Density,0.286223025506694
+Distance_to_Surface_Water_m,0.1919169728063399
+Elevation_m,0.1836279257398526
+Distance_to_Road_m,0.1201983864613899
+Baseline_LULC_2020,0.1116690485777414
+Distance_to_Drainage_m,0.0738747610892765
+Slope_deg,0.0324898798187055

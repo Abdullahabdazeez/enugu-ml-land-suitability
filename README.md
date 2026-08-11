@@ -1,140 +1,137 @@
-# Machine-Learning-Based Land Suitability Analysis — Enugu State, Nigeria
+# Machine-Learning-Based Near-Urban Expansion Suitability — Enugu State, Nigeria
 
-**A reproducible Extra Trees modelling workflow that integrates urban-expansion evidence, terrain, accessibility, environmental conditions and planning constraints to identify land suitable for sustainable urban development.**
+**A leakage-audited and spatially validated Extra Trees workflow for identifying near-urban locations associated with observed 2020–2025 expansion.**
 
 <p align="center">
-  <img src="assets/project-cover.png" alt="Enugu urban expansion suitability and planning-priority outputs" width="100%">
+  <img src="assets/maps/Enugu_Final_Suitability_Map.png" alt="Final Enugu near-urban expansion suitability map" width="100%">
 </p>
 
-Urban growth decisions require more than identifying undeveloped land. Suitable locations must balance development potential with terrain, accessibility, environmental sensitivity, existing settlement patterns and model reliability. This project developed a statewide machine-learning workflow for Enugu State using multi-source geospatial predictors and spatially separated training, validation and independent test samples.
+## Overview
 
-An **Extra Trees classifier** was selected after candidate-model assessment and evaluated on an independent spatial test set containing **3,600 samples across 32 spatial blocks**. The final model achieved a **ROC-AUC of 0.7517**, **balanced accuracy of 0.7111**, **F1 score of 0.7324** and **Cohen Kappa of 0.4222**. These results indicate useful but imperfect discrimination, so the outputs are presented as planning-support evidence rather than deterministic development approvals.
+This project evaluates whether terrain, accessibility, environmental conditions, population pressure and baseline land cover can help distinguish **observed urban expansion from stable non-built land within comparable near-urban locations in Enugu State**.
 
-After applying environmental and planning constraints, approximately **6,050.85 km²** remained within the model-applicable planning area, while **1,568.63 km²** was constrained. High and very-high suitability accounted for **515.09 km²** and **16.67 km²** respectively. The final planning-priority surface identified **392.83 km²** as high priority and **0.37 km²** as very-high priority. Only **30.08 km²** qualified as high-confidence suitable land, highlighting the importance of interpreting suitability together with confidence and uncertainty.
+The modelling workflow was rebuilt after a forensic audit identified two problems in the earlier experiment: administrative/sample-construction variables could leak the target, and the original positive and negative samples occupied almost separate distance ranges relative to existing urban development. The corrected experiment removes those leakage pathways and evaluates the model using spatially separated Train, Validation and Test blocks.
 
-| Project detail | Information |
-|---|---|
-| **Study area** | Enugu State, Nigeria |
-| **Analysis year** | 2025 |
-| **Selected model** | Extra Trees classifier |
-| **Independent test set** | 3,600 samples across 32 spatial blocks |
-| **ROC-AUC** | 0.7517 |
-| **Balanced accuracy** | 0.7111 |
-| **F1 score** | 0.7324 |
-| **Primary outputs** | Probability, constrained probability, suitability, priority, confidence and uncertainty |
+**Research question:** Among pixels within the same 30–90 m near-urban support from 2020 built-up land, can baseline environmental and accessibility variables distinguish locations that transitioned from non-built to built-up by 2025?
 
-## Key findings
+## Final model
 
-- Independent test **ROC-AUC:** **0.7517**
-- Independent test **balanced accuracy:** **0.7111**
-- Independent test **F1 score:** **0.7324**
-- Independent test **Cohen Kappa:** **0.4222**
-- Planning-applicable area: **6,050.85 km²**
-- Planning-constrained area: **1,568.63 km²**
-- High-suitability land: **515.09 km²**
-- Very-high-suitability land: **16.67 km²**
-- High planning-priority land: **392.83 km²**
-- Very-high planning-priority land: **0.37 km²**
-- High-confidence suitable land: **30.08 km²**
-- Mean statewide expansion probability: **0.3500**
-- Mean planning-constrained probability: **0.3137**
+The final Extra Trees model uses seven leakage-safe predictors:
 
-## Analytical workflow
+- Elevation
+- Slope
+- Distance to roads
+- Distance to recurring surface water
+- Distance to drainage
+- 2020 population density
+- Baseline 2020 land cover
 
-1. Prepared Enugu State and LGA boundaries.
-2. Generated elevation and slope from Copernicus DEM.
-3. Processed Dynamic World and Sentinel-2 land-cover and spectral predictors.
-4. Derived road-accessibility, population, settlement and environmental indicators.
-5. Generated planning constraints and model-applicability masks.
-6. Constructed spatially separated training, validation and independent test samples.
-7. Compared candidate machine-learning models and selected Extra Trees.
-8. Assessed discrimination, class performance, calibration and feature importance.
-9. Predicted statewide urban-expansion probability.
-10. Derived confidence and uncertainty surfaces.
-11. Applied planning constraints and classified development suitability.
-12. Combined suitability and planning evidence into priority classes.
-13. Validated outputs and produced final cartographic and portfolio deliverables.
+`Distance_to_Built_2020_m` is **not** an ML predictor. It is retained only as a simple benchmark to test whether machine learning contributes information beyond urban proximity.
 
-## Selected outputs
+Coordinates, raster indices, spatial block IDs, sample IDs, component IDs and outcome-year predictors are also excluded from the model.
 
-### Urban-expansion probability
+## Independent spatial validation
 
-![Urban-expansion probability](outputs/maps/01_urban_expansion_probability.png)
+| Metric | Extra Trees | Distance-only baseline |
+|---|---:|---:|
+| ROC-AUC | **0.7267** | 0.7068 |
+| PR-AUC | **0.3319** | 0.1903 |
+| Balanced accuracy | 0.6614 | **0.6689** |
+| F1 | **0.3368** | 0.2937 |
 
-### Planning-constrained probability
+Extra Trees improves discrimination by approximately **+0.020 ROC-AUC** and **+0.142 PR-AUC** relative to simple proximity. The distance-only baseline retains slightly higher balanced accuracy, so the correct interpretation is that the ML model **adds predictive discrimination beyond proximity**, not that it outperforms the baseline on every metric.
 
-![Planning-constrained probability](outputs/maps/02_planning_constrained_expansion_probability.png)
+![Model benchmark](assets/figures/R5_ExtraTrees_vs_Distance_Benchmark.png)
 
-### Urban-development suitability
+## Probability and suitability results
 
-![Urban-development suitability](outputs/maps/03_urban_development_suitability.png)
+The Validation-selected operating threshold is **0.36**. Final suitability classes use fixed numerical thresholds rather than quantiles:
 
-### Planning priority
+| Class | Probability range | Area (km²) | Share of valid domain |
+|---|---|---:|---:|
+| Low | p < 0.36 | 715.13 | 81.53% |
+| Moderate | 0.36 ≤ p < 0.50 | 76.49 | 8.72% |
+| High | 0.50 ≤ p < 0.70 | 48.26 | 5.50% |
+| Very High | p ≥ 0.70 | **37.27** | **4.25%** |
 
-![Planning priority](outputs/maps/04_urban_development_planning_priority.png)
+The **p ≥ 0.70 high-confidence area remains spatially sparse**. This is treated as a substantive model result rather than hidden by lowering the probability threshold.
 
-### Model confidence
+### Final probability surface
 
-![Model confidence](outputs/maps/05_model_confidence.png)
+![Probability map](assets/maps/Enugu_Final_Probability_Map.png)
 
-### Model uncertainty
+### Final fixed-threshold suitability classes
 
-![Model uncertainty](outputs/maps/06_model_uncertainty.png)
+![Suitability map](assets/maps/Enugu_Final_Suitability_Map.png)
 
-## Reproducibility
+## Predictor importance
 
-The complete staged Colab notebook is included:
+Population density is the strongest model predictor, followed by distance to recurring surface water and elevation. Feature importance indicates model usage and predictive association; it should not be interpreted as causal effect.
 
-```text
-notebooks/Project_7_Enugu_ML_Land_Suitability_Reproducible.ipynb
-```
+![Feature importance](assets/figures/R5_Feature_Importance.png)
 
-The cleaned notebook preserves the final corrected production workflow. The original development notebook is retained separately for provenance. A full rerun requires Google Earth Engine authentication, Google Drive access and the external data sources documented in the notebook and methodology.
+## Model uncertainty and confidence
 
-The browser-upload repository includes the final categorical GIS rasters, all final maps, the complete cleaned notebook and the statistical tables used to verify the published results. Continuous probability, confidence and uncertainty rasters are documented and reproducible from the notebook but are omitted from the browser package to keep the repository lightweight.
+Only **37.27 km² (4.25%)** of the valid near-urban prediction domain reaches probability ≥0.70.
 
-```bash
-pip install -r requirements.txt
-python scripts/python/reproduce_summary.py
-python validation/validate_repository.py
-```
+![High-confidence scarcity](assets/figures/R5_High_Confidence_Scarcity.png)
+
+![Probability threshold area profile](assets/figures/R5_Threshold_Area_Profile.png)
+
+## Methodology
+
+The corrected workflow:
+
+1. Audited the original labels, predictors and validation records.
+2. Identified administrative-variable leakage and distance-driven sample separation.
+3. Reconstructed authoritative 2020→2025 label semantics.
+4. Rebuilt the eligible modelling population.
+5. Reconstructed the 2020 distance-to-built surface.
+6. Redesigned the target as a fair near-urban transition problem using stable non-built controls within the same 30–90 m support as observed expansion.
+7. Removed distance-to-built and all administrative/spatial-index fields from the ML predictor set.
+8. Created spatially separated Train, Validation and Test blocks.
+9. Compared Extra Trees against a trivial urban-proximity baseline.
+10. Refit the locked model using Train + Validation after independent Test evaluation.
+11. Generated the final probability surface and fixed-threshold suitability classes.
+12. Quantified the high-confidence area rather than adjusting thresholds for visual appearance.
+
+See [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md).
 
 ## Planning interpretation
 
-The final outputs should be used as a screening and decision-support system. High suitability does not replace detailed site investigation, land-tenure review, infrastructure-capacity assessment, environmental impact assessment or community consultation.
+The final surface is best understood as **near-urban expansion suitability / probability under the reconstructed 2020–2025 experimental design**.
 
-The relatively limited high-confidence suitable area demonstrates why probability alone should not determine planning decisions. The suitability, confidence, uncertainty and constraint layers should be interpreted together, with particular caution in locations where the model extrapolates beyond well-represented training conditions.
+It is not a causal forecast, a statewide probability for every location, or a planning approval map. It should be combined with planning policy, infrastructure capacity, environmental assessment, land-tenure review and field verification.
 
 ## Repository structure
 
 ```text
 .
-├── assets/                  # Cover and social preview
-├── data/processed/
-│   ├── rasters/             # Final categorical planning GeoTIFFs
-│   └── tables/              # Metrics, importance and area statistics
-├── docs/                    # Abstract, methods, limitations and data notes
-├── notebooks/               # Complete production Colab workflow
-├── outputs/
-│   ├── maps/                # Seven final maps
-├── scripts/python/          # Result-reproduction script
-├── validation/              # Source validation records and repository checks
+├── assets/
+│   ├── maps/
+│   └── figures/
+├── data/
+│   ├── final/
+│   └── tables/
+├── docs/
+├── reports/
+├── validation/
 ├── CITATION.cff
-├── LICENSE
 ├── README.md
-├── project.json
-└── requirements.txt
+├── RELEASE_NOTES.md
+└── project.json
 ```
+
+## Final technical report
+
+- [`PDF report`](reports/Enugu_Final_Technical_Report.pdf)
+- [`DOCX report`](reports/Enugu_Final_Technical_Report.docx)
 
 ## Author
 
 **Abdullah Abdazeez Ayomide**  
-Geo-spatial Planner | GIS & Remote Sensing Analyst
+Geo-spatial Planner | GIS & Remote Sensing Analyst | Environmental & Urban Planning Researcher
 
-- [GitHub](https://github.com/Abdullahabdazeez)
-- [LinkedIn](https://ng.linkedin.com/in/abdazeez-abdullah-4b814719a)
-- [Email](mailto:abdazeezabdullah1@gmail.com)
+## Citation
 
-## Citation and licence
-
-Citation metadata is provided in [`CITATION.cff`](CITATION.cff). Code and original documentation are released under the MIT License. External datasets remain subject to their providers' licences and terms.
+Citation metadata is provided in [`CITATION.cff`](CITATION.cff).
