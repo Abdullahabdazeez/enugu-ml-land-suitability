@@ -102,7 +102,6 @@ It is not a planning approval map, a causal model or a guaranteed forecast of fu
 - [`assets/maps`](assets/maps/) — final maps
 - [`assets/figures`](assets/figures/) — model and uncertainty figures
 - [`data/tables`](data/tables/) — summary tables
-- [`validation`](validation/) — validation records
 
 ## Tools
 
