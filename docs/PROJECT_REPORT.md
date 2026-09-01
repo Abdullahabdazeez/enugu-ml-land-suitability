@@ -63,7 +63,7 @@ More detailed infrastructure, land-price, zoning and development-control data co
 
 ## Main outputs
 
-Maps are in [`assets/maps`](../assets/maps/), model figures in [`assets/figures`](../assets/figures/), tables in [`data`](../data/), and validation records in [`validation`](../validation/).
+Maps are in [`assets/maps`](../assets/maps/), model figures in [`assets/figures`](../assets/figures/), and tables in [`data`](../data/).
 
 ## Final note
 
