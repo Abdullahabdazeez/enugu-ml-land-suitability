@@ -1,0 +1,68 @@
+name: Validate repository
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Validate public portfolio package
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, sys
+
+          root = Path('.')
+          failures = []
+
+          required = [
+              'README.md',
+              'LICENSE',
+              'CITATION.cff',
+              'project.json',
+              'docs/PROJECT_REPORT.md',
+              'reports/Enugu_Final_Technical_Report.pdf',
+              'reports/Enugu_Final_Technical_Report.docx',
+              'assets/maps/Enugu_Final_Suitability_Map.png',
+              'assets/maps/Enugu_Final_Probability_Map.png',
+              'assets/figures/R5_ExtraTrees_vs_Distance_Benchmark.png'
+          ]
+
+          for rel in required:
+              p = root / rel
+              if not p.exists() or p.stat().st_size == 0:
+                  failures.append(f'Missing or empty: {rel}')
+
+          try:
+              json.loads((root / 'project.json').read_text(encoding='utf-8'))
+          except Exception as exc:
+              failures.append(f'Invalid project.json: {exc}')
+
+          readme = (root / 'README.md').read_text(encoding='utf-8', errors='replace')
+          for term in ['Enugu', 'Extra Trees', '0.7267', '37.27']:
+              if term.lower() not in readme.lower():
+                  failures.append(f'README missing expected project content: {term}')
+
+          for p in root.rglob('*'):
+              if p.is_file() and p.stat().st_size > 95 * 1024 * 1024:
+                  failures.append(f'File exceeds 95 MB: {p}')
+
+          if failures:
+              print('VALIDATION FAILED')
+              for item in failures:
+                  print('-', item)
+              sys.exit(1)
+
+          print('VALIDATION PASSED')
+          print('Enugu portfolio package is structurally complete and internally consistent.')
+          PY
