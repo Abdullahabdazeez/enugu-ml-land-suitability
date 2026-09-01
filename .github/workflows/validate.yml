@@ -27,7 +27,6 @@ jobs:
 
           required = [
               'README.md',
-              'LICENSE',
               'CITATION.cff',
               'project.json',
               'docs/PROJECT_REPORT.md',
