@@ -1,36 +1,20 @@
-# Machine-Learning-Based Near-Urban Expansion Suitability — Enugu State, Nigeria
-
-**A leakage-audited and spatially validated Extra Trees workflow for identifying near-urban locations associated with observed 2020–2025 expansion.**
+# Near-Urban Expansion Suitability in Enugu State, Nigeria
 
 <p align="center">
-  <img src="assets/maps/Enugu_Final_Suitability_Map.png" alt="Final Enugu near-urban expansion suitability map" width="100%">
+  <img src="assets/maps/Enugu_Final_Suitability_Map.png" alt="Near-urban expansion suitability in Enugu State" width="100%">
 </p>
 
-## Overview
+## What this project asks
 
-This project evaluates whether terrain, accessibility, environmental conditions, population pressure and baseline land cover can help distinguish **observed urban expansion from stable non-built land within comparable near-urban locations in Enugu State**.
+Among places already close to the 2020 urban edge, can terrain, accessibility, environmental conditions and population pressure help distinguish locations that became built-up by 2025 from locations that remained non-built?
 
-The modelling workflow was rebuilt after a forensic audit identified two problems in the earlier experiment: administrative/sample-construction variables could leak the target, and the original positive and negative samples occupied almost separate distance ranges relative to existing urban development. The corrected experiment removes those leakage pathways and evaluates the model using spatially separated Train, Validation and Test blocks.
+I used an **Extra Trees** model to answer that question. The final workflow was rebuilt after an audit showed that the earlier experiment could give the model unfair clues through administrative variables and distance-driven sample separation.
 
-**Research question:** Among pixels within the same 30–90 m near-urban support from 2020 built-up land, can baseline environmental and accessibility variables distinguish locations that transitioned from non-built to built-up by 2025?
+The corrected version removes those shortcuts and evaluates the model on spatially separated data.
 
-## Final model
+## The main result
 
-The final Extra Trees model uses seven leakage-safe predictors:
-
-- Elevation
-- Slope
-- Distance to roads
-- Distance to recurring surface water
-- Distance to drainage
-- 2020 population density
-- Baseline 2020 land cover
-
-`Distance_to_Built_2020_m` is **not** an ML predictor. It is retained only as a simple benchmark to test whether machine learning contributes information beyond urban proximity.
-
-Coordinates, raster indices, spatial block IDs, sample IDs, component IDs and outcome-year predictors are also excluded from the model.
-
-## Independent spatial validation
+The model adds useful predictive information beyond simple distance to existing built-up land, but the improvement is moderate rather than dramatic.
 
 | Metric | Extra Trees | Distance-only baseline |
 |---|---:|---:|
@@ -39,98 +23,97 @@ Coordinates, raster indices, spatial block IDs, sample IDs, component IDs and ou
 | Balanced accuracy | 0.6614 | **0.6689** |
 | F1 | **0.3368** | 0.2937 |
 
-Extra Trees improves discrimination by approximately **+0.020 ROC-AUC** and **+0.142 PR-AUC** relative to simple proximity. The distance-only baseline retains slightly higher balanced accuracy, so the correct interpretation is that the ML model **adds predictive discrimination beyond proximity**, not that it outperforms the baseline on every metric.
+Extra Trees improves ROC-AUC by about **0.020** and PR-AUC by about **0.142**, while the distance-only baseline keeps a slightly higher balanced accuracy.
 
-![Model benchmark](assets/figures/R5_ExtraTrees_vs_Distance_Benchmark.png)
+That is why I describe the result carefully: **the ML model adds discrimination beyond proximity, but it does not beat the baseline on every metric.**
 
-## Probability and suitability results
+<p align="center">
+  <img src="assets/figures/R5_ExtraTrees_vs_Distance_Benchmark.png" alt="Extra Trees model compared with a distance-only baseline" width="90%">
+</p>
 
-The Validation-selected operating threshold is **0.36**. Final suitability classes use fixed numerical thresholds rather than quantiles:
+## What the model uses
 
-| Class | Probability range | Area (km²) | Share of valid domain |
+The final model uses seven predictors:
+
+- elevation;
+- slope;
+- distance to roads;
+- distance to recurring surface water;
+- distance to drainage;
+- 2020 population density; and
+- baseline 2020 land cover.
+
+`Distance_to_Built_2020_m` is **not** used as an ML predictor. I keep it only as a benchmark so I can test whether the model learns anything beyond simple proximity to the existing urban edge.
+
+Coordinates, sample IDs, spatial block IDs and outcome-year variables are also excluded.
+
+## Probability surface
+
+<p align="center">
+  <img src="assets/maps/Enugu_Final_Probability_Map.png" alt="Predicted probability of near-urban expansion in Enugu State" width="100%">
+</p>
+
+The validation-selected operating threshold is **0.36**. I use fixed probability ranges rather than quantiles for the final suitability classes.
+
+| Suitability class | Probability range | Area (km²) | Share |
 |---|---|---:|---:|
 | Low | p < 0.36 | 715.13 | 81.53% |
 | Moderate | 0.36 ≤ p < 0.50 | 76.49 | 8.72% |
 | High | 0.50 ≤ p < 0.70 | 48.26 | 5.50% |
 | Very High | p ≥ 0.70 | **37.27** | **4.25%** |
 
-The **p ≥ 0.70 high-confidence area remains spatially sparse**. This is treated as a substantive model result rather than hidden by lowering the probability threshold.
+Only **4.25%** of the valid prediction domain reaches probability ≥0.70. I keep that scarcity visible rather than lowering the threshold to make the map look more dramatic.
 
-### Final probability surface
+## What seems to matter most
 
-![Probability map](assets/maps/Enugu_Final_Probability_Map.png)
+<p align="center">
+  <img src="assets/figures/R5_Feature_Importance.png" alt="Feature importance for the Enugu Extra Trees model" width="90%">
+</p>
 
-### Final fixed-threshold suitability classes
+Population density is the strongest model predictor, followed by distance to recurring surface water and elevation.
 
-![Suitability map](assets/maps/Enugu_Final_Suitability_Map.png)
+Feature importance tells us which variables the model relied on. It does **not** prove that those variables caused urban expansion.
 
-## Predictor importance
+## How I rebuilt the experiment
 
-Population density is the strongest model predictor, followed by distance to recurring surface water and elevation. Feature importance indicates model usage and predictive association; it should not be interpreted as causal effect.
+1. Audited the earlier labels, predictors and validation design.
+2. Identified leakage from administrative variables and an unfair separation between positive and negative samples.
+3. Reconstructed the 2020→2025 labels.
+4. Limited the experiment to comparable non-built pixels within the same **30–90 m near-urban support**.
+5. Removed distance-to-built and other fields that could leak spatial identity into the model.
+6. Created spatially separated Train, Validation and Test blocks.
+7. Compared Extra Trees with a simple urban-proximity baseline.
+8. Locked the evaluation before refitting the final model on Train + Validation.
+9. Produced the final probability and fixed-threshold suitability maps.
+10. Quantified the high-confidence area instead of changing thresholds for presentation.
 
-![Feature importance](assets/figures/R5_Feature_Importance.png)
+Full methodology: [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md).
 
-## Model uncertainty and confidence
+## What this means for planning
 
-Only **37.27 km² (4.25%)** of the valid near-urban prediction domain reaches probability ≥0.70.
+The final surface is best used as a **near-urban screening layer**. It highlights places that look more similar to the kinds of locations that actually expanded between 2020 and 2025.
 
-![High-confidence scarcity](assets/figures/R5_High_Confidence_Scarcity.png)
+It is not a planning approval map, a causal model or a guaranteed forecast of future development. Before any site-level decision, the result should be combined with planning policy, infrastructure capacity, environmental constraints, land tenure and field verification.
 
-![Probability threshold area profile](assets/figures/R5_Threshold_Area_Profile.png)
+## Reports and outputs
 
-## Methodology
+- [Final technical report — PDF](reports/Enugu_Final_Technical_Report.pdf)
+- [Final technical report — DOCX](reports/Enugu_Final_Technical_Report.docx)
+- [`assets/maps`](assets/maps/) — final maps
+- [`assets/figures`](assets/figures/) — model and uncertainty figures
+- [`data/tables`](data/tables/) — summary tables
+- [`validation`](validation/) — validation records
 
-The corrected workflow:
+## Tools
 
-1. Audited the original labels, predictors and validation records.
-2. Identified administrative-variable leakage and distance-driven sample separation.
-3. Reconstructed authoritative 2020→2025 label semantics.
-4. Rebuilt the eligible modelling population.
-5. Reconstructed the 2020 distance-to-built surface.
-6. Redesigned the target as a fair near-urban transition problem using stable non-built controls within the same 30–90 m support as observed expansion.
-7. Removed distance-to-built and all administrative/spatial-index fields from the ML predictor set.
-8. Created spatially separated Train, Validation and Test blocks.
-9. Compared Extra Trees against a trivial urban-proximity baseline.
-10. Refit the locked model using Train + Validation after independent Test evaluation.
-11. Generated the final probability surface and fixed-threshold suitability classes.
-12. Quantified the high-confidence area rather than adjusting thresholds for visual appearance.
-
-See [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md).
-
-## Planning interpretation
-
-The final surface is best understood as **near-urban expansion suitability / probability under the reconstructed 2020–2025 experimental design**.
-
-It is not a causal forecast, a statewide probability for every location, or a planning approval map. It should be combined with planning policy, infrastructure capacity, environmental assessment, land-tenure review and field verification.
-
-## Repository structure
-
-```text
-.
-├── assets/
-│   ├── maps/
-│   └── figures/
-├── data/
-│   ├── final/
-│   └── tables/
-├── docs/
-├── reports/
-├── validation/
-├── CITATION.cff
-├── README.md
-├── RELEASE_NOTES.md
-└── project.json
-```
-
-## Final technical report
-
-- [`PDF report`](reports/Enugu_Final_Technical_Report.pdf)
-- [`DOCX report`](reports/Enugu_Final_Technical_Report.docx)
+Python · scikit-learn · GeoPandas · Rasterio · Pandas · GIS · Remote sensing · Spatial validation
 
 ## Author
 
 **Abdullah Abdazeez Ayomide**  
-Geo-spatial Planner | GIS & Remote Sensing Analyst | Environmental & Urban Planning Researcher
+Geospatial Planner · GIS & Remote Sensing Analyst · Urban & Environmental Planning Researcher
+
+[GitHub](https://github.com/Abdullahabdazeez) · [LinkedIn](https://ng.linkedin.com/in/abdazeez-abdullah-4b814719a)
 
 ## Citation
 
