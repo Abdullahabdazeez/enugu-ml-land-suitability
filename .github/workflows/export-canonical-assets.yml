@@ -1,0 +1,25 @@
+name: Export canonical Enugu assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/export-canonical-assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build source archive
+        run: |
+          zip -r enugu-canonical-source.zip README.md CITATION.cff LICENSE RELEASE_NOTES.md project.json assets data docs reports 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: enugu-canonical-source
+          path: enugu-canonical-source.zip
+          retention-days: 1
